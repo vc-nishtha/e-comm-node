@@ -1,5 +1,6 @@
 const express = require("express");
 const initiateMongoServer = require("./config/db");
+const router = require('./routes/index');
 
 const app = express();
 initiateMongoServer();

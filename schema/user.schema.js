@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     userName: {
         type: String,
-        required: true,
+        required: false,
     },
     email: {
         type: String,
@@ -13,7 +13,15 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    isVerified: {
+        type: Boolean,
+        required: false
+    },
+    verificationCode: {
+        type: String,
+        required: false
+    },
 });
 
 const User = mongoose.model('user', UserSchema);
