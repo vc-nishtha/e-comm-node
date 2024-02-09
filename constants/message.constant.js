@@ -21,7 +21,7 @@ module.exports = {
         nodeMailError: 'Nodemailer error in sending email!',
         mailError: 'Error while registering user',
         verifiedError: 'Please verify your account to use further.',
-        badRequest: 'Bad request',
+        badRequest: 'Bad request, Try Again',
         tokenInvalid: 'User not found or Token invalid',
         invalidVerification: 'Invalid verification code',
         productNotFound: 'Product not found',

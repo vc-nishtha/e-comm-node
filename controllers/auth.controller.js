@@ -21,22 +21,21 @@ exports.signupUser = async function signupUser(req, res) {
 
         const verificationCode = generateVerificationCode(6);
         const newUser = new User({ ...req.body, isVerified: false, verificationCode });
-        console.log(newUser, 'newUser');
         newUser.password = hashedPassword;
         await newUser.save();
 
         const mailOptions = {
-            from: `"My Company" <${process.env.MAILER_EMAIL}>`,
+            from: `<${process.env.MAILER_EMAIL}>`,
             template: "email",
             to: newUser.email,
-            subject: `Welcome to My Company, ${newUser.name}`,
+            subject: `Welcome to My Company, ${newUser.userName}`,
             context: {
-                name: newUser.name,
+                name: newUser.userName,
                 company: 'VC',
                 link: `http://localhost:4200/verify/${newUser._id}`
             },
             html: `
-            <h1>Hello ${newUser.name}, Welcome to My Company </h1>
+            <h1>Hello ${newUser.userName}, Welcome to My Company </h1>
             <p>We are glad to have you on board!</p>
             <p>Click here to verify your account <a href="http://localhost:4200/verify/${verificationCode}">Click Here</a></p>`
         };
@@ -47,7 +46,6 @@ exports.signupUser = async function signupUser(req, res) {
                         message: STATIC_MESSAGE.errorMessage.mailError,
                         error: error,
                     });
-                    console.log(error, 'error')
                 } else {
                     res.status(STATIC_MESSAGE.statusCode.success).send({
                         message: STATIC_MESSAGE.successMessage.emailSent
@@ -163,9 +161,7 @@ exports.forgotUser = async function forgotUser(req, res) {
             return;
         }
         const resetToken = generateVerificationCode(20);
-        resetTokens.set(resetToken, user.id);
-
-        const resetLink = `http://localhost:4200/reset?token=${token}`;
+        const resetLink = `http://localhost:4200/reset?token=${resetToken}`;
 
         const mailOptions = {
             from: `${process.env.MAILER_EMAIL}`,
@@ -173,7 +169,6 @@ exports.forgotUser = async function forgotUser(req, res) {
             subject: STATIC_MESSAGE.message.resetPassword,
             text: `Click the following link to reset your password: ${resetLink}`,
         };
-
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 res.status(STATIC_MESSAGE.statusCode.badRequest).send({
