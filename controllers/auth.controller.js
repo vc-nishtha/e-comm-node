@@ -21,22 +21,21 @@ exports.signupUser = async function signupUser(req, res) {
 
         const verificationCode = generateVerificationCode(6);
         const newUser = new User({ ...req.body, isVerified: false, verificationCode });
-        console.log(newUser, 'newUser');
         newUser.password = hashedPassword;
         await newUser.save();
 
         const mailOptions = {
-            from: `"My Company" <${process.env.MAILER_EMAIL}>`,
+            from: `<${process.env.MAILER_EMAIL}>`,
             template: "email",
             to: newUser.email,
-            subject: `Welcome to My Company, ${newUser.name}`,
+            subject: `Welcome to My Company, ${newUser.userName}`,
             context: {
-                name: newUser.name,
+                name: newUser.userName,
                 company: 'VC',
                 link: `http://localhost:4200/verify/${newUser._id}`
             },
             html: `
-            <h1>Hello ${newUser.name}, Welcome to My Company </h1>
+            <h1>Hello ${newUser.userName}, Welcome to My Company </h1>
             <p>We are glad to have you on board!</p>
             <p>Click here to verify your account <a href="http://localhost:4200/verify/${verificationCode}">Click Here</a></p>`
         };
