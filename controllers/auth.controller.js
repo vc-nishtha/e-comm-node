@@ -46,7 +46,6 @@ exports.signupUser = async function signupUser(req, res) {
                         message: STATIC_MESSAGE.errorMessage.mailError,
                         error: error,
                     });
-                    console.log(error, 'error')
                 } else {
                     res.status(STATIC_MESSAGE.statusCode.success).send({
                         message: STATIC_MESSAGE.successMessage.emailSent
@@ -172,7 +171,6 @@ exports.forgotUser = async function forgotUser(req, res) {
             subject: STATIC_MESSAGE.message.resetPassword,
             text: `Click the following link to reset your password: ${resetLink}`,
         };
-
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 res.status(STATIC_MESSAGE.statusCode.badRequest).send({

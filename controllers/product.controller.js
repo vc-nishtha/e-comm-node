@@ -4,7 +4,6 @@ const STATIC_MESSAGE = require('../constants/message.constant');
 exports.createProduct = async function createProduct(req, res) {
     try {
         const prod = new Product(req.body);
-        console.log(prod, 'prod')
         await prod.save();
         res.status(STATIC_MESSAGE.statusCode.success).send({
             message: STATIC_MESSAGE.successMessage.productCreated,
