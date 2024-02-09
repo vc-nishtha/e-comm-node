@@ -161,9 +161,7 @@ exports.forgotUser = async function forgotUser(req, res) {
             return;
         }
         const resetToken = generateVerificationCode(20);
-        resetTokens.set(resetToken, user.id);
-
-        const resetLink = `http://localhost:4200/reset?token=${token}`;
+        const resetLink = `http://localhost:4200/reset?token=${resetToken}`;
 
         const mailOptions = {
             from: `${process.env.MAILER_EMAIL}`,
